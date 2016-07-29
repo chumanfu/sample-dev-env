@@ -1,15 +1,16 @@
-exec { "apt-get update":
-  path => "/usr/bin",
+exec { "apt-update":
+  path => '/usr/bin',
+  command => 'sudo apt-get update'
 }
 package { "apache2":
   ensure  => present,
-  require => Exec["apt-get update"],
+  require => Exec["apt-update"],
 }
 service { "apache2":
   ensure  => "running",
   require => Package["apache2"],
 }
-file { "/var/www/sample-webapp":
+file { "/var/www/html/sample-webapp":
   ensure  => "link",
   target  => "/vagrant/sample-webapp",
   require => Package["apache2"],
